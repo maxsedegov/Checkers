@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 typedef int8_t POS_T;
-
+// Класс Move управляет движением в игре
 struct move_pos
 {
     POS_T x, y;             // from

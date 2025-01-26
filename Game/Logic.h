@@ -19,12 +19,10 @@ class Logic
         optimization = (*config)("Bot", "Optimization");
     }
 
-    vector<move_pos> find_best_turns(const bool color)
+    vector<move_pos> (const bool color)
     {
         next_best_state.clear();
         next_move.clear();
-
-        find_first_best_turn(board->get_board(), color, -1, -1, 0);
 
         int cur_state = 0;
         vector<move_pos> res;
@@ -48,7 +46,7 @@ private:
         return mtx;
     }
 
-    double calc_score(const vector<vector<POS_T>> &mtx, const bool first_bot_color) const
+    double calc_score(const vector<vector<POS_T>> &mtx, const bool first_bot_color) const // calc_score() вычисляет текущий счёт
     {
         // color - who is max player
         double w = 0, wq = 0, b = 0, bq = 0;
@@ -84,20 +82,20 @@ private:
         return (b + bq * q_coef) / (w + wq * q_coef);
     }
 
-    double find_first_best_turn(vector<vector<POS_T>> mtx, const bool color, const POS_T x, const POS_T y, size_t state,
+    double (vector<vector<POS_T>> mtx, const bool color, const POS_T x, const POS_T y, size_t state,
                                 double alpha = -1)
     {
         next_best_state.push_back(-1);
         next_move.emplace_back(-1, -1, -1, -1);
-        double best_score = -1;
+        double best_score = -1; 
         if (state != 0)
-            find_turns(x, y, mtx);
+            find_turns(x, y, mtx); // find_turns() ищет возможные ходы для игрока
         auto turns_now = turns;
         bool have_beats_now = have_beats;
 
         if (!have_beats_now && state != 0)
         {
-            return find_best_turns_rec(mtx, 1 - color, 0, alpha);
+            return (mtx, 1 - color, 0, alpha);
         }
 
         vector<move_pos> best_moves;
@@ -109,11 +107,11 @@ private:
             double score;
             if (have_beats_now)
             {
-                score = find_first_best_turn(make_turn(mtx, turn), color, turn.x2, turn.y2, next_state, best_score);
+                score =(make_turn(mtx, turn), color, turn.x2, turn.y2, next_state, best_score); // make_turn() выполняет ход
             }
             else
             {
-                score = find_best_turns_rec(make_turn(mtx, turn), 1 - color, 0, best_score);
+                score = (make_turn(mtx, turn), 1 - color, 0, best_score);
             }
             if (score > best_score)
             {
@@ -125,7 +123,7 @@ private:
         return best_score;
     }
 
-    double find_best_turns_rec(vector<vector<POS_T>> mtx, const bool color, const size_t depth, double alpha = -1,
+    double (vector<vector<POS_T>> mtx, const bool color, const size_t depth, double alpha = -1,
                                double beta = INF + 1, const POS_T x = -1, const POS_T y = -1)
     {
         if (depth == Max_depth)
@@ -143,7 +141,7 @@ private:
 
         if (!have_beats_now && x != -1)
         {
-            return find_best_turns_rec(mtx, 1 - color, depth + 1, alpha, beta);
+            return (mtx, 1 - color, depth + 1, alpha, beta);
         }
 
         if (turns.empty())
@@ -156,11 +154,11 @@ private:
             double score = 0.0;
             if (!have_beats_now && x == -1)
             {
-                score = find_best_turns_rec(make_turn(mtx, turn), 1 - color, depth + 1, alpha, beta);
+                score = (make_turn(mtx, turn), 1 - color, depth + 1, alpha, beta);
             }
             else
             {
-                score = find_best_turns_rec(make_turn(mtx, turn), color, depth, alpha, beta, turn.x2, turn.y2);
+                score = (make_turn(mtx, turn), color, depth, alpha, beta, turn.x2, turn.y2);
             }
             min_score = min(min_score, score);
             max_score = max(max_score, score);
@@ -176,7 +174,7 @@ private:
     }
 
 public:
-    void find_turns(const bool color)
+    void find_turns(const bool color) // find_turns() ищет возможные ходы для игрока
     {
         find_turns(color, board->get_board());
     }
@@ -187,7 +185,7 @@ public:
     }
 
 private:
-    void find_turns(const bool color, const vector<vector<POS_T>> &mtx)
+    void find_turns(const bool color, const vector<vector<POS_T>> &mtx) 
     {
         vector<move_pos> res_turns;
         bool have_beats_before = false;

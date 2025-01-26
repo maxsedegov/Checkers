@@ -1,19 +1,7 @@
 {
-    "WindowSize": {
-        "Width": 0,
-        "Hight": 0
-    },
-    "Bot": {
-        "IsWhiteBot": false,
-        "IsBlackBot": true,
-        "WhiteBotLevel": 0,
-        "BlackBotLevel": 5,
-        "BotScoringType": "NumberAndPotential",
-        "BotDelayMS": 0,
-        "NoRandom": false,
-        "Optimization": "O1"
-    },
-    "Game": {
-        "MaxNumTurns": 120
-    }
+  "C_Cpp.intelliSenseMode": "gcc-x64", // Используем GCC для 64-битной архитектуры
+  "files.associations": { // Связывание файлов с типами
+    "*.cpp": "cpp",
+    "*.h": "cpp"
+  }
 }

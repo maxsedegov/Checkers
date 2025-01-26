@@ -17,7 +17,7 @@ class Game
         fout.close();
     }
 
-    // to start checkers
+    // Функция play() управляет игровым процессом, включая ходы игрока и бота
     int play()
     {
         auto start = chrono::steady_clock::now();
@@ -104,7 +104,7 @@ class Game
     }
 
   private:
-    void bot_turn(const bool color)
+    void bot_turn(const bool color) // Функция bot_turn() управляет ходом компьютера
     {
         auto start = chrono::steady_clock::now();
 
@@ -132,7 +132,7 @@ class Game
         fout.close();
     }
 
-    Response player_turn(const bool color)
+    Response player_turn(const bool color) // Функция player_turn() отвечает за выполнение хода игроком
     {
         // return 1 if quit
         vector<pair<POS_T, POS_T>> cells;

@@ -8,12 +8,13 @@ using json = nlohmann::json;
 class Config
 {
   public:
-    Config()
+    Config() // Оператор () позволяет создать объект без явного вызова конструктора.
     {
         reload();
     }
-
+    // Функция reload() перезагружает настройки из конфигурационного файла
     void reload()
+    // Загрузка данных
     {
         std::ifstream fin(project_path + "settings.json");
         fin >> config;

@@ -15,7 +15,7 @@
 #endif
 
 using namespace std;
-
+// Класс Board управляет состоянием игрового поля
 class Board
 {
 public:

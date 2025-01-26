@@ -1,9 +1,3 @@
-#include "Game/Game.h"
-
-int main(int argc, char* argv[])
-{
-    Game g;
-    g.play();
-
-    return 0;
+#include <Windows.h>
+int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {  
 }

@@ -17,7 +17,7 @@ class Game
         fout.close();
     }
 
-    // Функция play() управляет игровым процессом, включая ходы игрока и бота
+    // Р¤СѓРЅРєС†РёСЏ play() СѓРїСЂР°РІР»СЏРµС‚ РёРіСЂРѕРІС‹Рј РїСЂРѕС†РµСЃСЃРѕРј, РІРєР»СЋС‡Р°СЏ С…РѕРґС‹ РёРіСЂРѕРєР° Рё Р±РѕС‚Р°
     int play()
     {
         auto start = chrono::steady_clock::now();
@@ -104,7 +104,7 @@ class Game
     }
 
   private:
-    void bot_turn(const bool color) // Функция bot_turn() управляет ходом компьютера
+    void bot_turn(const bool color) // Г”ГіГ­ГЄГ¶ГЁГї bot_turn() ГіГЇГ°Г ГўГ«ГїГҐГІ ГµГ®Г¤Г®Г¬ ГЄГ®Г¬ГЇГјГѕГІГҐГ°Г 
     {
         auto start = chrono::steady_clock::now();
 
@@ -132,7 +132,7 @@ class Game
         fout.close();
     }
 
-    Response player_turn(const bool color) // Функция player_turn() отвечает за выполнение хода игроком
+    Response player_turn(const bool color) // Р¤СѓРЅРєС†РёСЏ player_turn() РѕС‚РІРµС‡Р°РµС‚ Р·Р° РІС‹РїРѕР»РЅРµРЅРёРµ С…РѕРґР° РёРіСЂРѕРєРѕРј
     {
         // return 1 if quit
         vector<pair<POS_T, POS_T>> cells;

@@ -7,10 +7,10 @@ public:
             !((*config)("Bot", "NoRandom")) ? unsigned(time(0)) : 0);
         scoring_mode = (*config)("Bot", "BotScoringType");
         optimization = (*config)("Bot", "Optimization");
-        Max_depth = 5;  h = 5;  // Установим максимальную глубину для алгоритма минимакс
+        Max_depth = 5;  h = 5;  // РЈСЃС‚Р°РЅРѕРІРёРј РјР°РєСЃРёРјР°Р»СЊРЅСѓСЋ РіР»СѓР±РёРЅСѓ РґР»СЏ Р°Р»РіРѕСЂРёС‚РјР° РјРёРЅРёРјР°РєСЃ
     }
 
-    // Основной метод для вызова минимакс-алгоритма и получения наилучшего хода для бота
+    // ГЋГ±Г­Г®ГўГ­Г®Г© Г¬ГҐГІГ®Г¤ Г¤Г«Гї ГўГ»Г§Г®ГўГ  Г¬ГЁГ­ГЁГ¬Г ГЄГ±-Г Г«ГЈГ®Г°ГЁГІГ¬Г  ГЁ ГЇГ®Г«ГіГ·ГҐГ­ГЁГї Г­Г ГЁГ«ГіГ·ГёГҐГЈГ® ГµГ®Г¤Г  Г¤Г«Гї ГЎГ®ГІГ 
     vector<move_pos> get_best_move(const bool color)
     {
         next_best_state.clear();
@@ -28,7 +28,7 @@ public:
     }
 
 private:
-    // Метод для вычисления оценки позиции на доске
+    // ГЊГҐГІГ®Г¤ Г¤Г«Гї ГўГ»Г·ГЁГ±Г«ГҐГ­ГЁГї Г®Г¶ГҐГ­ГЄГЁ ГЇГ®Г§ГЁГ¶ГЁГЁ Г­Г  Г¤Г®Г±ГЄГҐ
     double calc_score(const vector<vector<POS_T>>& mtx, const bool first_bot_color) const
     {
         double w = 0, wq = 0, b = 0, bq = 0;
@@ -36,60 +36,60 @@ private:
         {
             for (POS_T j = 0; j < 8; ++j)
             {
-                w += (mtx[i][j] == 1);   // Добавляем обычные фигуры белых
-                wq += (mtx[i][j] == 3);  // Добавляем ферзи белых
-                b += (mtx[i][j] == 2);   // Добавляем обычные фигуры черных
-                bq += (mtx[i][j] == 4);  // Добавляем ферзей черных
+                w += (mtx[i][j] == 1);   // Г„Г®ГЎГ ГўГ«ГїГҐГ¬ Г®ГЎГ»Г·Г­Г»ГҐ ГґГЁГЈГіГ°Г» ГЎГҐГ«Г»Гµ
+                wq += (mtx[i][j] == 3);  // Г„Г®ГЎГ ГўГ«ГїГҐГ¬ ГґГҐГ°Г§ГЁ ГЎГҐГ«Г»Гµ
+                b += (mtx[i][j] == 2);   // Г„Г®ГЎГ ГўГ«ГїГҐГ¬ Г®ГЎГ»Г·Г­Г»ГҐ ГґГЁГЈГіГ°Г» Г·ГҐГ°Г­Г»Гµ
+                bq += (mtx[i][j] == 4);  // Г„Г®ГЎГ ГўГ«ГїГҐГ¬ ГґГҐГ°Г§ГҐГ© Г·ГҐГ°Г­Г»Гµ
                 if (scoring_mode == "NumberAndPotential")
                 {
-                    w += 0.05 * (mtx[i][j] == 1) * (7 - i);  // Учитываем позицию для обычных фигур
-                    b += 0.05 * (mtx[i][j] == 2) * (i);      // Учитываем позицию для черных фигур
+                    w += 0.05 * (mtx[i][j] == 1) * (7 - i);  // Г“Г·ГЁГІГ»ГўГ ГҐГ¬ ГЇГ®Г§ГЁГ¶ГЁГѕ Г¤Г«Гї Г®ГЎГ»Г·Г­Г»Гµ ГґГЁГЈГіГ°
+                    b += 0.05 * (mtx[i][j] == 2) * (i);      // Г“Г·ГЁГІГ»ГўГ ГҐГ¬ ГЇГ®Г§ГЁГ¶ГЁГѕ Г¤Г«Гї Г·ГҐГ°Г­Г»Гµ ГґГЁГЈГіГ°
                 }
             }
         }
         if (!first_bot_color)
         {
-            swap(b, w);  // инвертируем результаты для черных и белых
+            swap(b, w);  // ГЁГ­ГўГҐГ°ГІГЁГ°ГіГҐГ¬ Г°ГҐГ§ГіГ«ГјГІГ ГІГ» Г¤Г«Гї Г·ГҐГ°Г­Г»Гµ ГЁ ГЎГҐГ«Г»Гµ
             swap(bq, wq);
         }
 
-        // Если на доске нет фигур то возвращаемся в бесконечность
+        // Г…Г±Г«ГЁ Г­Г  Г¤Г®Г±ГЄГҐ Г­ГҐГІ ГґГЁГЈГіГ° ГІГ® ГўГ®Г§ГўГ°Г Г№Г ГҐГ¬Г±Гї Гў ГЎГҐГ±ГЄГ®Г­ГҐГ·Г­Г®Г±ГІГј
         if (w + wq == 0)
             return INF;
         if (b + bq == 0)
             return 0;
 
-        int q_coef = (scoring_mode == "NumberAndPotential") ? 5 : 4; // Учитываем коэффициент для ферзей
-        return (b + bq * q_coef) / (w + wq * q_coef); // Оценка позиции
+        int q_coef = (scoring_mode == "NumberAndPotential") ? 5 : 4; // Г“Г·ГЁГІГ»ГўГ ГҐГ¬ ГЄГ®ГЅГґГґГЁГ¶ГЁГҐГ­ГІ Г¤Г«Гї ГґГҐГ°Г§ГҐГ©
+        return (b + bq * q_coef) / (w + wq * q_coef); // ГЋГ¶ГҐГ­ГЄГ  ГЇГ®Г§ГЁГ¶ГЁГЁ
     }
 
-    // Метод выполнения хода на доске
+    // ГЊГҐГІГ®Г¤ ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї ГµГ®Г¤Г  Г­Г  Г¤Г®Г±ГЄГҐ
     vector<vector<POS_T>> make_turn(vector<vector<POS_T>> mtx, move_pos turn) const
     {
         if (turn.xb != -1)
-            mtx[turn.xb][turn.yb] = 0;  // Удаляем фигуру которую победили
+            mtx[turn.xb][turn.yb] = 0;  // Г“Г¤Г Г«ГїГҐГ¬ ГґГЁГЈГіГ°Гі ГЄГ®ГІГ®Г°ГіГѕ ГЇГ®ГЎГҐГ¤ГЁГ«ГЁ
         if ((mtx[turn.x][turn.y] == 1 && turn.x2 == 0) || (mtx[turn.x][turn.y] == 2 && turn.x2 == 7))
-            mtx[turn.x][turn.y] += 2;  // Превращаем фигуру в ферзя
-        mtx[turn.x2][turn.y2] = mtx[turn.x][turn.y];  // Перемещаем фигуру
-        mtx[turn.x][turn.y] = 0;  // Ставим пустое место
+            mtx[turn.x][turn.y] += 2;  // ГЏГ°ГҐГўГ°Г Г№Г ГҐГ¬ ГґГЁГЈГіГ°Гі Гў ГґГҐГ°Г§Гї
+        mtx[turn.x2][turn.y2] = mtx[turn.x][turn.y];  // ГЏГҐГ°ГҐГ¬ГҐГ№Г ГҐГ¬ ГґГЁГЈГіГ°Гі
+        mtx[turn.x][turn.y] = 0;  // Г‘ГІГ ГўГЁГ¬ ГЇГіГ±ГІГ®ГҐ Г¬ГҐГ±ГІГ®
         return mtx;
     }
 
-    // Метод для выполнения минимакса с альфа-бета отсечением
+    // ГЊГҐГІГ®Г¤ Г¤Г«Гї ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї Г¬ГЁГ­ГЁГ¬Г ГЄГ±Г  Г± Г Г«ГјГґГ -ГЎГҐГІГ  Г®ГІГ±ГҐГ·ГҐГ­ГЁГҐГ¬
     double minimax(vector<vector<POS_T>> mtx, bool color, size_t depth, double alpha = -INF, double beta = INF, POS_T x = -1, POS_T y = -1)
     {
-        if (depth == Max_depth)  // Если достигли максимальной глубины
+        if (depth == Max_depth)  // Г…Г±Г«ГЁ Г¤Г®Г±ГІГЁГЈГ«ГЁ Г¬Г ГЄГ±ГЁГ¬Г Г«ГјГ­Г®Г© ГЈГ«ГіГЎГЁГ­Г»
         {
             return calc_score(mtx, color);
         }
 
         if (x != -1)
         {
-            find_turns(x, y, mtx);  // Ищем возможные ходы для конкретной фигуры
+            find_turns(x, y, mtx);  // Г€Г№ГҐГ¬ ГўГ®Г§Г¬Г®Г¦Г­Г»ГҐ ГµГ®Г¤Г» Г¤Г«Гї ГЄГ®Г­ГЄГ°ГҐГІГ­Г®Г© ГґГЁГЈГіГ°Г»
         }
         else
         {
-            find_turns(color, mtx);  // Ищем ходы для всех игроков
+            find_turns(color, mtx);  // Г€Г№ГҐГ¬ ГµГ®Г¤Г» Г¤Г«Гї ГўГ±ГҐГµ ГЁГЈГ°Г®ГЄГ®Гў
         }
 
         auto turns_now = turns;
@@ -101,28 +101,28 @@ private:
         }
 
         if (turns.empty())
-            return (depth % 2 == 0 ? INF : -INF);  // Если ходов нет, возвращаем максимально плохой результат
+            return (depth % 2 == 0 ? INF : -INF);  // Г…Г±Г«ГЁ ГµГ®Г¤Г®Гў Г­ГҐГІ, ГўГ®Г§ГўГ°Г Г№Г ГҐГ¬ Г¬Г ГЄГ±ГЁГ¬Г Г«ГјГ­Г® ГЇГ«Г®ГµГ®Г© Г°ГҐГ§ГіГ«ГјГІГ ГІ
 
         double best_score = (depth % 2 == 0) ? -INF : INF;
 
         for (auto turn : turns_now)
         {
-            vector<vector<POS_T>> new_mtx = make_turn(mtx, turn);  // Применяем ход
-            double score = minimax(new_mtx, 1 - color, depth + 1, alpha, beta);  // Рекурсивно вычисляем результат
+            vector<vector<POS_T>> new_mtx = make_turn(mtx, turn);  // ГЏГ°ГЁГ¬ГҐГ­ГїГҐГ¬ ГµГ®Г¤
+            double score = minimax(new_mtx, 1 - color, depth + 1, alpha, beta);  // ГђГҐГЄГіГ°Г±ГЁГўГ­Г® ГўГ»Г·ГЁГ±Г«ГїГҐГ¬ Г°ГҐГ§ГіГ«ГјГІГ ГІ
 
-            // Обновляем лучший результат в зависимости от глубины
-            if (depth % 2 == 0)  // Максимизируем для бота
+            // ГЋГЎГ­Г®ГўГ«ГїГҐГ¬ Г«ГіГ·ГёГЁГ© Г°ГҐГ§ГіГ«ГјГІГ ГІ Гў Г§Г ГўГЁГ±ГЁГ¬Г®Г±ГІГЁ Г®ГІ ГЈГ«ГіГЎГЁГ­Г»
+            if (depth % 2 == 0)  // ГЊГ ГЄГ±ГЁГ¬ГЁГ§ГЁГ°ГіГҐГ¬ Г¤Г«Гї ГЎГ®ГІГ 
             {
                 best_score = max(best_score, score);
                 alpha = max(alpha, best_score);
             }
-            else  // Максимизируем для соперника
+            else  // ГЊГ ГЄГ±ГЁГ¬ГЁГ§ГЁГ°ГіГҐГ¬ Г¤Г«Гї Г±Г®ГЇГҐГ°Г­ГЁГЄГ 
             {
                 best_score = min(best_score, score);
                 beta = min(beta, best_score);
             }
 
-            // Альфа-бета отсечение
+            // ГЂГ«ГјГґГ -ГЎГҐГІГ  Г®ГІГ±ГҐГ·ГҐГ­ГЁГҐ
             if (alpha >= beta)
                 break;
         }
@@ -130,7 +130,7 @@ private:
         return best_score;
     }
 
-    // Основной метод поиска наилучшего хода для бота
+    // ГЋГ±Г­Г®ГўГ­Г®Г© Г¬ГҐГІГ®Г¤ ГЇГ®ГЁГ±ГЄГ  Г­Г ГЁГ«ГіГ·ГёГҐГЈГ® ГµГ®Г¤Г  Г¤Г«Гї ГЎГ®ГІГ 
     void find_best_move(bool color)
     {
         double best_score = -INF;
@@ -138,8 +138,8 @@ private:
 
         for (auto turn : turns)
         {
-            vector<vector<POS_T>> new_mtx = make_turn(board->get_board(), turn);  // Применяем ход
-            double score = minimax(new_mtx, 1 - color, 0, -INF, INF);  // Выполняем минимизацию
+            vector<vector<POS_T>> new_mtx = make_turn(board->get_board(), turn);  // ГЏГ°ГЁГ¬ГҐГ­ГїГҐГ¬ ГµГ®Г¤
+            double score = minimax(new_mtx, 1 - color, 0, -INF, INF);  // Г‚Г»ГЇГ®Г«Г­ГїГҐГ¬ Г¬ГЁГ­ГЁГ¬ГЁГ§Г Г¶ГЁГѕ
 
             if (score > best_score)
             {
@@ -148,7 +148,7 @@ private:
             }
         }
 
-        next_move.push_back(best_move);  // Запоминаем лучший ход
+        next_move.push_back(best_move);  // Г‡Г ГЇГ®Г¬ГЁГ­Г ГҐГ¬ Г«ГіГ·ГёГЁГ© ГµГ®Г¤
     }
 
 private:
@@ -156,7 +156,7 @@ private:
     Config* config;
     vector<move_pos> turns;
     bool have_beats;
-    int Max_depth;  // Глубина для минимума и максимума
+    int Max_depth;  // ГѓГ«ГіГЎГЁГ­Г  Г¤Г«Гї Г¬ГЁГ­ГЁГ¬ГіГ¬Г  ГЁ Г¬Г ГЄГ±ГЁГ¬ГіГ¬Г 
     default_random_engine rand_eng;
     string scoring_mode;
     string optimization;

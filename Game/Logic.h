@@ -7,10 +7,10 @@ public:
             !((*config)("Bot", "NoRandom")) ? unsigned(time(0)) : 0);
         scoring_mode = (*config)("Bot", "BotScoringType");
         optimization = (*config)("Bot", "Optimization");
-        Max_depth = 5;  // Установим максимальную глубину для алгоритма минимакс
+        Max_depth = 5;  h = 5;  // Установим максимальную глубину для алгоритма минимакс
     }
 
-    // Основной метод для вызова минимакс алгоритма и получения лучшего хода для бота
+    // Основной метод для вызова минимакс-алгоритма и получения наилучшего хода для бота
     vector<move_pos> get_best_move(const bool color)
     {
         next_best_state.clear();
@@ -39,7 +39,7 @@ private:
                 w += (mtx[i][j] == 1);   // Добавляем обычные фигуры белых
                 wq += (mtx[i][j] == 3);  // Добавляем ферзи белых
                 b += (mtx[i][j] == 2);   // Добавляем обычные фигуры черных
-                bq += (mtx[i][j] == 4);  // Добавляем ферзи черных
+                bq += (mtx[i][j] == 4);  // Добавляем ферзей черных
                 if (scoring_mode == "NumberAndPotential")
                 {
                     w += 0.05 * (mtx[i][j] == 1) * (7 - i);  // Учитываем позицию для обычных фигур
@@ -49,11 +49,11 @@ private:
         }
         if (!first_bot_color)
         {
-            swap(b, w);  // Инвертируем результаты для черных и белых
+            swap(b, w);  // инвертируем результаты для черных и белых
             swap(bq, wq);
         }
 
-        // Если на доске нет фигур, то возвращаем бесконечность
+        // Если на доске нет фигур то возвращаемся в бесконечность
         if (w + wq == 0)
             return INF;
         if (b + bq == 0)
@@ -63,11 +63,11 @@ private:
         return (b + bq * q_coef) / (w + wq * q_coef); // Оценка позиции
     }
 
-    // Метод для выполнения хода на доске
+    // Метод выполнения хода на доске
     vector<vector<POS_T>> make_turn(vector<vector<POS_T>> mtx, move_pos turn) const
     {
         if (turn.xb != -1)
-            mtx[turn.xb][turn.yb] = 0;  // Убираем фигуру, которую побили
+            mtx[turn.xb][turn.yb] = 0;  // Удаляем фигуру которую победили
         if ((mtx[turn.x][turn.y] == 1 && turn.x2 == 0) || (mtx[turn.x][turn.y] == 2 && turn.x2 == 7))
             mtx[turn.x][turn.y] += 2;  // Превращаем фигуру в ферзя
         mtx[turn.x2][turn.y2] = mtx[turn.x][turn.y];  // Перемещаем фигуру
@@ -75,7 +75,7 @@ private:
         return mtx;
     }
 
-    // Метод для выполнения минимакс с альфа-бета отсечением
+    // Метод для выполнения минимакса с альфа-бета отсечением
     double minimax(vector<vector<POS_T>> mtx, bool color, size_t depth, double alpha = -INF, double beta = INF, POS_T x = -1, POS_T y = -1)
     {
         if (depth == Max_depth)  // Если достигли максимальной глубины
@@ -89,7 +89,7 @@ private:
         }
         else
         {
-            find_turns(color, mtx);  // Ищем ходы для всего игрока
+            find_turns(color, mtx);  // Ищем ходы для всех игроков
         }
 
         auto turns_now = turns;
@@ -101,14 +101,14 @@ private:
         }
 
         if (turns.empty())
-            return (depth % 2 == 0 ? INF : -INF);  // Если нет ходов, возвращаем максимально плохой результат
+            return (depth % 2 == 0 ? INF : -INF);  // Если ходов нет, возвращаем максимально плохой результат
 
         double best_score = (depth % 2 == 0) ? -INF : INF;
 
         for (auto turn : turns_now)
         {
             vector<vector<POS_T>> new_mtx = make_turn(mtx, turn);  // Применяем ход
-            double score = minimax(new_mtx, 1 - color, depth + 1, alpha, beta);  // Рекурсивно считаем результат
+            double score = minimax(new_mtx, 1 - color, depth + 1, alpha, beta);  // Рекурсивно вычисляем результат
 
             // Обновляем лучший результат в зависимости от глубины
             if (depth % 2 == 0)  // Максимизируем для бота
@@ -116,7 +116,7 @@ private:
                 best_score = max(best_score, score);
                 alpha = max(alpha, best_score);
             }
-            else  // Минимизируем для соперника
+            else  // Максимизируем для соперника
             {
                 best_score = min(best_score, score);
                 beta = min(beta, best_score);
@@ -130,7 +130,7 @@ private:
         return best_score;
     }
 
-    // Основной метод для нахождения лучшего хода для бота
+    // Основной метод поиска наилучшего хода для бота
     void find_best_move(bool color)
     {
         double best_score = -INF;
@@ -139,7 +139,7 @@ private:
         for (auto turn : turns)
         {
             vector<vector<POS_T>> new_mtx = make_turn(board->get_board(), turn);  // Применяем ход
-            double score = minimax(new_mtx, 1 - color, 0, -INF, INF);  // Прогоняем минимакс
+            double score = minimax(new_mtx, 1 - color, 0, -INF, INF);  // Выполняем минимизацию
 
             if (score > best_score)
             {
@@ -156,7 +156,7 @@ private:
     Config* config;
     vector<move_pos> turns;
     bool have_beats;
-    int Max_depth;  // Глубина для минимакс
+    int Max_depth;  // Глубина для минимума и максимума
     default_random_engine rand_eng;
     string scoring_mode;
     string optimization;

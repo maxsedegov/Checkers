@@ -5,7 +5,7 @@
 #include "../Models/Response.h"
 #include "Board.h"
 
-// Класс Hand управляет картами игрока
+// РљР»Р°СЃСЃ Hand СѓРїСЂР°РІР»СЏРµС‚ РєР°СЂС‚Р°РјРё РёРіСЂРѕРєР°
 class Hand
 {
   public:
